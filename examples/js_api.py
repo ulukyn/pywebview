@@ -52,6 +52,12 @@ function showResponse(response) {
 
 function initialize() {
     pywebview.api.init().then(showResponse)
+    
+    var intervalID = setInterval(function(){
+        pywebview.api.getRandomNumber().then(function(response){
+            showResponse(response)
+        });
+    }, 100);
 }
 
 function doHeavyStuff() {
@@ -128,4 +134,4 @@ if __name__ == '__main__':
     t.start()
 
     api = Api()
-    webview.create_window('API example', js_api=api)
+    webview.create_window('API example', js_api=api, debug=True)
