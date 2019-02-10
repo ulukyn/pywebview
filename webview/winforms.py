@@ -88,6 +88,7 @@ class BrowserView:
             self.web_browser.IsWebBrowserContextMenuEnabled = debug
             self.web_browser.WebBrowserShortcutsEnabled = False
             self.web_browser.DpiAware = True
+            self.web_browser.AllowWebBrowserDrop = True
 
             self.web_browser.ScriptErrorsSuppressed = not debug
             self.web_browser.IsWebBrowserContextMenuEnabled = debug
