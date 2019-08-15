@@ -11,6 +11,7 @@ import os
 import sys
 import logging
 import json
+import tempfile
 import webbrowser
 from threading import Event, Semaphore
 from ctypes import windll
@@ -264,13 +265,15 @@ class BrowserView:
             return self.url
 
         def load_html(self, html, base_uri):
-            file_name = '%s.html' % uuid4().hex
-            self.temp_html = os.path.join(WinForms.Application.StartupPath, file_name)
+            with tempfile.TemporaryDirectory() as tmpdir:
+                self.tmpdir = tmpdir
+                self.temp_html = os.path.join(tmpdir, 'index.html')
 
             with open(self.temp_html, 'w') as f:
                 f.write(inject_base_uri(html, base_uri))
 
-            self.web_view.NavigateToLocal(file_name)
+            url, httpd = start_server('file://' + self.temp_html)
+            self.web_view.Navigate(url)
 
         def load_url(self, url):
             self.url = url
