@@ -241,6 +241,7 @@ class BrowserView:
 
             self.temp_html = None
             self.url = None
+            self.ishtml = False
 
             _allow_localhost()
 
@@ -273,10 +274,12 @@ class BrowserView:
                 f.write(inject_base_uri(html, base_uri))
 
             url, httpd = start_server('file://' + self.temp_html)
+            self.ishtml = True
             self.web_view.Navigate(url)
 
         def load_url(self, url):
-            self.url = url
+            self.ishtml = False
+
             # WebViewControl as of 5.1.1 crashes on file:// urls. Stupid workaround to make it work
             if url.startswith('file://'):
                 url = start_server(self.url)
@@ -306,7 +309,7 @@ class BrowserView:
                 logger.exception('Failed deleting %s' % self.temp_html)
 
             url = str(args.Uri)
-            self.url = None if url.startswith('ms-local-stream:') else url
+            self.url = None if self.ishtml else url
             self.web_view.InvokeScript('eval', ('window.alert = (msg) => window.external.notify(JSON.stringify(["alert", msg+""]))',))
 
             if _debug:
