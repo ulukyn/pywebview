@@ -17,8 +17,9 @@ def _api_call(function, event_type):
         event = args[0].loaded if event_type == 'loaded' else args[0].shown
 
         try:
+
             if not event.wait(15):
-                raise WebViewException('Main window failed to start')
+                logger.warning('Main window failed to start. Trying to invoke anyway.')
 
             if args[0].gui is None:
                 raise WebViewException('GUI is not initialized')
