@@ -7,6 +7,9 @@ from webview.util import base_uri, parse_file_type, escape_string, transform_url
 from .js import css
 
 
+logger = logging.getLogger('pywebview')
+
+
 def _api_call(function, event_type):
     """
     Decorator to call a pywebview API, checking for _webview_ready and raisings
@@ -17,7 +20,6 @@ def _api_call(function, event_type):
         event = args[0].loaded if event_type == 'loaded' else args[0].shown
 
         try:
-
             if not event.wait(15):
                 logger.warning('Main window failed to start. Trying to invoke anyway.')
 
