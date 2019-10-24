@@ -65,9 +65,7 @@ class Browser:
         self.browser.ExecuteJavascript(dom.src)
 
         self.initialized = True
-        print('LOADING')
         self.loaded.set()
-        print('SET')
 
 
     def close(self):
@@ -131,7 +129,6 @@ class LoadHandler(object):
 
     def OnLoadingStateChange(self, browser, is_loading, **_):
         instance = find_instance(browser)
-        print('STATE CHANGED')
 
         if instance is not None:
             if is_loading:
@@ -153,8 +150,6 @@ def _cef_call(func):
         return func(*args, **kwargs)
 
     return wrapper
-
-
 
 
 def init(window):
@@ -187,6 +182,8 @@ def init(window):
 
 def create_browser(window, handle, alert_func):
     def _create():
+        import time
+        time.sleep(3)
         real_url = 'data:text/html,{0}'.format(window.html) if window.html else window.url or 'data:text/html,{0}'.format(default_html)
         cef_browser = cef.CreateBrowserSync(window_info=window_info, url=real_url)
         browser = Browser(window, handle, cef_browser)
