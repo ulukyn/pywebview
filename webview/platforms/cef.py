@@ -185,6 +185,7 @@ def create_browser(window, handle, alert_func):
         import time
         time.sleep(3)
         real_url = 'data:text/html,{0}'.format(window.html) if window.html else window.url or 'data:text/html,{0}'.format(default_html)
+        print(real_url)
         cef_browser = cef.CreateBrowserSync(window_info=window_info, url=real_url)
         browser = Browser(window, handle, cef_browser)
 
