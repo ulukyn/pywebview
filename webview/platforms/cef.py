@@ -65,7 +65,10 @@ class Browser:
         self.browser.ExecuteJavascript(dom.src)
 
         self.initialized = True
+        print('LOADING')
         self.loaded.set()
+        print('SET')
+
 
     def close(self):
         self.browser.CloseBrowser(True)
@@ -128,6 +131,7 @@ class LoadHandler(object):
 
     def OnLoadingStateChange(self, browser, is_loading, **_):
         instance = find_instance(browser)
+        print('STATE CHANGED')
 
         if instance is not None:
             if is_loading:
