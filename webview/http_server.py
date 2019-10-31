@@ -10,10 +10,10 @@ from random import random
 try:
     from BaseHTTPServer import HTTPServer
     from SimpleHTTPServer import SimpleHTTPRequestHandler
-    from SocketServer import ThreadingMixIn
 except ImportError:
     from http.server import SimpleHTTPRequestHandler, HTTPServer
-    from socketserver import ThreadingMixIn
+
+from socketserver import ThreadingMixIn, TCPServer
 
 from webview.util import base_uri
 
@@ -72,6 +72,8 @@ def start_server(url):
 
     port = _get_random_port()
     server_address = ('localhost', port)
+
+    TCPServer.allow_reuse_address = True
 
     httpd = ThreadedHTTPServer(server_address, HTTPHandler)
     httpd.base_path = base_path
