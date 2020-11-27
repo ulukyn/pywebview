@@ -230,6 +230,10 @@ class BrowserView(QMainWindow):
         self.title = window.title
         self.setWindowTitle(window.title)
 
+        self.icon = window.icon+".png"
+        if os.path.isfile(window.icon):
+            self.setWindowIcon(QIcon(window.icon))
+
         # Set window background color
         self.background_color = QColor()
         self.background_color.setNamedColor(window.background_color)
@@ -709,4 +713,3 @@ def get_size(uid):
     
 def get_instance(uid):
     return BrowserView.instances[uid]
-
